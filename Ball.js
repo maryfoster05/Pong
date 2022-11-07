@@ -6,6 +6,7 @@ class Ball{
         this.xSpeed = 0;
         this.ySpeed = 0;
         this.backToOrgin();
+        // hello
     }
     
 
