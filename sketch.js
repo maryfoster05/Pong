@@ -4,6 +4,9 @@ let dragon;
 let paddle1;
 let paddle2;
 let ball;
+let leftScore = 0;
+let rigthScore = 0;
+
 
 function preload() {
  sound = loadSound("data/Hit Sound.wav");
@@ -17,11 +20,23 @@ function setup() {
     ball = new Ball();
     paddle1 =  new Paddle(40, 20, 100);
     paddle2 =  new Paddle (width - 40, 20, 100);
+    ball.backToOrgin();
     
   }
   
   function draw() {
     background('black');
+
+    textSize(40);
+    text(leftScore, width/4, 100);
+
+    textSize(40);
+    text(rigthScore, width - (width/4), 100);
+
+    for (let i = 0; i < windowHeight; i++){
+      rect (width/2, 50 * i, 10, 20);
+    }
+
 
     ball.hitPaddleLeft(paddle1);
     ball.hitPaddleRight(paddle2);
@@ -30,8 +45,9 @@ function setup() {
     paddle2.startPosition();
 
     ball.updateBallPosition();
-    ball.checkEdges();
     ball.orgin();
+    ball.checkEdges();
+    
     
     
     // fireDragon();
@@ -53,12 +69,9 @@ function setup() {
       }
   }
 
-  // function mousePressed() {
-  //   sound.play();
-    
-  // }
-
 
   function fireDragon(){
     image (dragon, width/2, random(height));
   }
+
+  
