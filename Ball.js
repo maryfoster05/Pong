@@ -13,17 +13,15 @@ class Ball{
         if (
             this.y - this.r < paddle1.y + paddle1.h / 2 &&
             this.y + this.r > paddle1.y - paddle1.h / 2 &&
-            this.x - this.r < paddle1.x + paddle1.w / 2 ) 
-            {
-
-                if (this.x > paddle1.x){
-                    // console.log("GOOO")
-                    let diff = this.y - (paddle1.y - paddle1.h / 2)
-                    let rad = radians(45);
-                    let angle = map (diff, 0, paddle1.h, -rad, rad);
-                    this.xSpeed = 7 * Math.cos(angle);
-                    this.ySpeed = 7 * Math.sin(angle);
-                    this.x = paddle1.x + paddle1.w / 2 + this.r;
+            this.x - this.r < paddle1.x + paddle1.w / 2 ) {
+            
+            if (this.x > paddle1.x){
+                let diff = this.y - (paddle1.y - paddle1.h / 2)
+                let rad = radians(45);
+                let angle = map (diff, 0, paddle1.h, -rad, rad);
+                this.xSpeed = 7 * Math.cos(angle);
+                this.ySpeed = 7 * Math.sin(angle);
+                this.x = paddle1.x + paddle1.w / 2 + this.r;
                 }
             }
         }
@@ -32,18 +30,17 @@ class Ball{
         if (
             this.y - this.r < paddle2.y + paddle2.h / 2 &&
             this.y + this.r > paddle2.y - paddle2.h /2 &&
-            this.x + this.r > paddle2.x - paddle2.w /2 ) 
-            {
-                if (this.x < paddle2.x){
-                    // console.log("TRUE")
-                    let diff = this.y - (paddle2.y - paddle2.h / 2)
-                    let angle = map (diff, 0, paddle2.h, radians(225), radians(135));
-                    this.xSpeed = 7 * Math.cos(angle);
-                    this.ySpeed = 7 * Math.sin(angle);
-                    this.x = paddle2.x - paddle2.w / 2 - this.r;
-                }
+            this.x + this.r > paddle2.x - paddle2.w /2 ) {
+                
+            if (this.x < paddle2.x){
+                let diff = this.y - (paddle2.y - paddle2.h / 2)
+                let angle = map (diff, 0, paddle2.h, radians(225), radians(135));
+                this.xSpeed = 7 * Math.cos(angle);
+                this.ySpeed = 7 * Math.sin(angle);
+                this.x = paddle2.x - paddle2.w / 2 - this.r;
             }
         }
+    }
 
 
     updateBallPosition(){
@@ -53,7 +50,6 @@ class Ball{
 
 
     backToOrgin(){
-        // console.log("back")
         this.x = width / 2;
         this.y = height / 2;
         let angle = random(-PI / 4, PI / 4);
@@ -72,7 +68,6 @@ class Ball{
         }
 
         if (this.x - this.r > width){
-            // console.log("BAD")
             this.backToOrgin();
             sound.play(); 
             leftScore ++;
@@ -80,7 +75,6 @@ class Ball{
         }
 
         if (this.x - this.r < 0){
-            // console.log("bad");
             this.backToOrgin();
             sound.play();
             rigthScore ++;
