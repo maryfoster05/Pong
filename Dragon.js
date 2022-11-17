@@ -1,6 +1,6 @@
-class Dragon extends Ball{
-    
-    constructor(){
+class Dragon extends Ball {
+
+    constructor() {
         super();
         this.x = width / 2;
         this.y = height / 2;
@@ -10,25 +10,36 @@ class Dragon extends Ball{
 
     }
 
-    dragonOrgin(){
+    dragonOrgin() {
         imageMode(CENTER);
-        image (dragon, this.x, this.y, 150, 150);
+        image(dragon, this.x, this.y, 150, 150);
     }
 
-    dragonWall(){
-        if (this.y  == height || this.y == 0) {
+    dragonWall() {
+        if (this.y > height) {
+            this.y = height;
             this.ySpeed *= -1;
-          }
+        }
+        else if (this.y < 0) {
+            this.y = 0;
+            this.ySpeed *= -1;
+        }
     }
 
-    dragonMove(){
+    dragonMove() {
         this.y += this.ySpeed
+        this.dragonWall();
     }
 
-    dragonHit(){
-        if (this.x == Ball.x){
-            console.log("hit");x
-            push (new Ball());
+    dragonHit() {
+        if (ball.x > this.x && 
+            ball.x < this.x + this.w &&
+            ball.y > this.y &&
+            ball.y < this.y + this.h
+            
+            ) {
+            console.log("hit");
+            // push(new Ball());
         }
     }
 }

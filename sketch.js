@@ -1,12 +1,14 @@
+let scene = 0;
 
 let sound;
 let dragon;
 let fireDragon;
 let paddle1;
 let paddle2;
-let ball;
+// let ball;
 let leftScore = 0;
 let rigthScore = 0;
+let balls = [];
 
 function preload() {
  sound = loadSound("data/Hit Sound.wav");
@@ -16,7 +18,8 @@ function preload() {
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    ball = new Ball();
+    // ball = new Ball();
+    balls.push(new Ball())
 
     // paddle1 is the paddle on the left.
     paddle1 =  new Paddle(40, 20, 100);
@@ -26,7 +29,10 @@ function setup() {
 
     fireDragon = new Dragon();
 
-    ball.backToOrgin();
+    for (const ball in balls) {
+      ball.backToOrgin();
+    }
+    
   }
   
   function draw() {
