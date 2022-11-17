@@ -15,6 +15,7 @@ class Dragon extends Ball {
         image(dragon, this.x, this.y, 150, 150);
     }
 
+    // test
     dragonWall() {
         if (this.y > height) {
             this.y = height;
