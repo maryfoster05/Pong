@@ -4,10 +4,10 @@ class Dragon extends Ball {
         super();
         this.x = width / 2;
         this.y = height / 2;
-        this.h = dragon.height;
-        this.w = dragon.width;
+        this.h = 150; //dragon.height;
+        this.w = 150; //dragon.width;
         this.ySpeed = 1;
-
+        this.lastDragonHit = 0;
     }
 
     dragonOrgin() {
@@ -15,7 +15,7 @@ class Dragon extends Ball {
         image(dragon, this.x, this.y, 150, 150);
     }
 
-    // test
+
     dragonWall() {
         if (this.y > height) {
             this.y = height;
@@ -33,14 +33,23 @@ class Dragon extends Ball {
     }
 
     dragonHit() {
-        if (ball.x > this.x && 
-            ball.x < this.x + this.w &&
-            ball.y > this.y &&
-            ball.y < this.y + this.h
-            
+        for (const ball of balls) {
+            if (ball.x > this.x &&
+                ball.x < this.x + this.w &&
+                ball.y > this.y &&
+                ball.y < this.y + this.h
+
             ) {
-            console.log("hit");
-            // push(new Ball());
+                if (millis() - this.lastDragonHit > 10000) {
+                    console.log (millis());
+                    let b = new Ball();
+                    balls.push(b);
+                    b.backToOrgin();
+                    this.lastDragonHit = millis();
+                    console.log (this.lastDragonHit);
+                }
+
+            }
         }
     }
 }
