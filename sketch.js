@@ -1,6 +1,6 @@
 let sound;
 let dragon;
-let scene;
+let scene = 0;
 let button;
 let fireDragon;
 let paddle1;
@@ -16,29 +16,32 @@ function preload() {
 }
 
 function setup() {
-  textSize(40);
   createCanvas(windowWidth, windowHeight);
-  scene = 0;
+  console.log(scene)
 
-  buttonSetup();
+  if (scene == 1) {
+    balls.push(new Ball());
 
-  balls.push(new Ball());
+    // paddle1 is the paddle on the left.
+    paddle1 = new Paddle(40, 20, 100);
 
-  // paddle1 is the paddle on the left.
-  paddle1 = new Paddle(40, 20, 100);
+    // paddle2 is the paddle on the right.
+    paddle2 = new Paddle(width - 40, 20, 100);
 
-  // paddle2 is the paddle on the right.
-  paddle2 = new Paddle(width - 40, 20, 100);
+    fireDragon = new Dragon();
 
-  fireDragon = new Dragon();
-
-  for (const ball of balls) {
-    ball.backToOrgin();
+    for (const ball of balls) {
+      ball.backToOrgin();
+    }
   }
-
 }
 
 function draw() {
+  if (scene == 0) {
+    makeButton();
+    background('pink');
+  }
+
   if (scene == 1) {
     background('black');
     scoreBoard();
@@ -62,16 +65,61 @@ function draw() {
   }
 }
 
-function buttonSetup() {
-  background('blue')
-  button = createButton('click me to start the game');
-  button.position(width / 2, height / 2);
-  button.mousePressed(scene = 1);
-  clear();
-  scene = 1;
-
-
+function keyPressed() { // this key pressed starts the game
+  if (keyCode === 13) {
+    scene++;
+    console.log(scene);
+  }
 }
+
+
+
+function makeButton() {
+  button = createButton("Hit Enter to Start!");
+  button.size(200, 200);
+  button.position(350, 300);
+  button.style("font-family", "Bodoni");
+  button.style("font-size", "48px");
+}
+
+// function gameSetup() {
+//   balls.push(new Ball());
+
+//   // paddle1 is the paddle on the left.
+//   paddle1 = new Paddle(40, 20, 100);
+
+//   // paddle2 is the paddle on the right.
+//   paddle2 = new Paddle(width - 40, 20, 100);
+
+//   fireDragon = new Dragon();
+
+//   for (const ball of balls) {
+//     ball.backToOrgin();
+//   }
+// }
+
+// function gamePlay() {
+//   background('black');
+//   scoreBoard();
+//   movePaddles();
+
+//   for (const ball of balls) {
+//     ball.hitPaddleLeft(paddle1);
+//     ball.hitPaddleRight(paddle2);
+//     ball.updateBallPosition();
+//     ball.orgin();
+//     ball.checkEdges();
+//   }
+
+//   paddle1.startPosition();
+//   paddle2.startPosition();
+
+//   fireDragon.dragonOrgin();
+//   fireDragon.dragonHit();
+//   fireDragon.dragonMove();
+//   fireDragon.dragonWall();
+
+// }
 
 
 function movePaddles() {
