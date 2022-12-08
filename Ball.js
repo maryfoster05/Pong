@@ -1,3 +1,5 @@
+let ballID = 0;
+
 class Ball {
     constructor() {
         this.x = width / 2;
@@ -5,7 +7,7 @@ class Ball {
         this.r = 12;
         this.xSpeed = 0;
         this.ySpeed = 0;
-
+        this.id = ballID++;
     }
 
 
@@ -71,14 +73,14 @@ class Ball {
             this.backToOrgin();
             sound.play();
             leftScore++;
-
+            deleteBall(this.id);
         }
 
         if (this.x - this.r < 0) {
             this.backToOrgin();
             sound.play();
-            rigthScore++;
-
+            rightScore++;
+            deleteBall(this.id);
         }
     }
 
