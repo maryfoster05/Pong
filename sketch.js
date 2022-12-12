@@ -1,13 +1,15 @@
 let sound;
 let dragon;
 let scene = 0;
+let player = 0;
 let button;
 let fireDragon;
 let paddle1;
 let paddle2;
+let aiPaddle;
 let leftScore = 0;
 let rightScore = 0;
-let balls = [];
+
 
 function preload() {
   sound = loadSound("data/Hit Sound.wav");
@@ -19,30 +21,16 @@ function setup() {
   console.log(scene);
 
   makeButton();
-
-  if (scene == 1 || scene == 3); {
-    balls.push(new Ball());
-
-    // paddle1 is the paddle on the left.
-    paddle1 = new Paddle(40, 20, 100);
-
-    // paddle2 is the paddle on the right.
-    paddle2 = new Paddle(width - 40, 20, 100);
-
-    fireDragon = new Dragon();
-
-    for (const ball of balls) {
-      ball.backToOrgin();
-    }
-  }
+  onePlayerGame();
+  twoPlayerGame();
 }
 
 function draw() {
   if (scene == 0) {
-    background('pink');
+    background('purple');
   }
 
-  if (scene == 1 || scene == 3) {
+  else if (scene == 0.5 || scene == 1) {
     background('black');
     scoreBoard();
     movePaddles();
@@ -57,6 +45,7 @@ function draw() {
 
     paddle1.startPosition();
     paddle2.startPosition();
+    aiPaddle.startPosition();
 
     fireDragon.dragonOrgin();
     fireDragon.dragonHit();
@@ -66,49 +55,105 @@ function draw() {
     checkScore();
   }
 
-  if (scene == 2) {
-    background('pink');
-    text("Game Over!!", width / 2,  height / 2,);
-    text("Hit enter to play again",  width / 2, height / 3,);
+  else if (scene == 2) {
+    background('maroon');
+    textAlign(CENTER);
+    text("Game Over!!", windowWidth / 2, windowHeight / 3);
+    text("Hit Enter to Play Again", windowWidth / 2, windowHeight / 2);
+    if (leftScore == 3) {
+      text("Player One Won!!", windowWidth / 2, windowHeight / 2.5);
+    }
+    else if (rightScore == 3) {
+      text("Player Two Won!!", windowWidth / 2, windowHeight / 2.5);
+    }
   }
-
 }
 
 function keyPressed() { // this key pressed starts the game
   if (keyCode === 13) {
-    scene++;
-    if (scene == 1) {
+
+    if (scene == 0) {
       button.style('display', 'none');
+      button.style('display', 'none');
+      scene++;
     }
-    if (scene == 3) {
-      // create a function that resets the game somehow.
+
+    else if (scene == 1) {
+      twoPlayerGame();
+      scene++;
     }
-    console.log(scene);
+    else if (scene == 2) {
+      scene = 1;
+      twoPlayerGame();
+      leftScore = 0;
+      rightScore = 0;
+    }
+  }
+
+  else if (keyCode === 79) {
+    if (scene == 0) {
+      button.style('display', 'none');
+      button.style('display', 'none');
+      scene += 0.5;
+    }
+
+    else if (scene == 1.5) {
+      onePlayerGame();
+      scene += 0.5;
+    }
   }
 }
 
 function makeButton() {
-  button = createButton("Hit Enter to Start!");
+  button = createButton("Hit 'O' to Start Single Player Game!");
   button.size(200, 200);
-  button.position(350, 300);
+  button.position(width / 2 - 100, height - 600);
+  console.log(width, height);
   button.style("font-family", "Bodoni");
-  button.style("font-size", "48px");
+  button.style("font-size", "30px");
+
+
+  button = createButton("Hit Enter to Start Two Player Game!");
+  button.size(200, 200);
+  button.position(width / 2 - 100, height / 2 + 50);
+  console.log(width, height);
+  button.style("font-family", "Bodoni");
+  button.style("font-size", "30px");
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  button.position(width / 2 - 100, height / 2 - 100);
 }
 
 function movePaddles() {
   // this moves the paddles on the left; 87 == w & 83 == s
-  if (keyIsDown(87)) {
-    paddle1.move(-10);
+  if (scene == 0.5) {
+    if (keyIsDown(UP_ARROW)) {
+      paddle2.move(-10);
+    }
+    if (keyIsDown(DOWN_ARROW)) {
+      paddle2.move(10);
+    }
+
+    paddle1.move(AiPaddle.move());
+
   }
-  if (keyIsDown(83)) {
-    paddle1.move(10);
-  }
-  // this moves the paddles on the right
-  if (keyIsDown(UP_ARROW)) {
-    paddle2.move(-10);
-  }
-  if (keyIsDown(DOWN_ARROW)) {
-    paddle2.move(10);
+
+  else if (scene == 1) {
+    if (keyIsDown(87)) {
+      paddle1.move(-10);
+    }
+    if (keyIsDown(83)) {
+      paddle1.move(10);
+    }
+    // this moves the paddles on the right
+    if (keyIsDown(UP_ARROW)) {
+      paddle2.move(-10);
+    }
+    if (keyIsDown(DOWN_ARROW)) {
+      paddle2.move(10);
+    }
   }
 }
 
@@ -135,8 +180,41 @@ function checkScore() {
 }
 
 function deleteBall(id) {
-  if (this.id > 0) {
-    console.log (balls);
-    balls.splice(1, balls.length3);
+  if (id > 0) {
+    balls.splice(1, balls.length);
+  }
+}
+
+function onePlayerGame() {
+  balls = [];
+  balls.push(new Ball());
+
+  // paddle1 is the automatic moving paddle on the left.
+  paddle1 = new AiPaddle(40, 20, 100);
+
+  // paddle2 is the paddle on the right.
+  paddle2 = new Paddle(width - 40, 20, 100);
+
+  fireDragon = new Dragon();
+
+  for (const ball of balls) {
+    ball.backToOrgin();
+  }
+}
+
+function twoPlayerGame() {
+  balls = [];
+  balls.push(new Ball());
+
+  // paddle1 is the paddle on the left.
+  paddle1 = new Paddle(40, 20, 100);
+
+  // paddle2 is the paddle on the right.
+  paddle2 = new Paddle(width - 40, 20, 100);
+
+  fireDragon = new Dragon();
+
+  for (const ball of balls) {
+    ball.backToOrgin();
   }
 }

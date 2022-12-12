@@ -15,7 +15,6 @@ class Dragon extends Ball {
         image(dragon, this.x, this.y, 150, 150);
     }
 
-
     dragonWall() {
         if (this.y > height) {
             this.y = height;
@@ -40,13 +39,13 @@ class Dragon extends Ball {
                 ball.y < this.y + this.h
 
             ) {
-                if (millis() - this.lastDragonHit > 10000) {
-                    console.log (millis());
+                if (millis() - this.lastDragonHit > 1000) {
+                    console.log(millis());
                     let b = new Ball();
                     balls.push(b);
                     b.backToOrgin();
                     this.lastDragonHit = millis();
-                    console.log (this.lastDragonHit);
+                    console.log(this.lastDragonHit);
                 }
 
             }

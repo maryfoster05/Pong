@@ -10,7 +10,6 @@ class Ball {
         this.id = ballID++;
     }
 
-
     hitPaddleLeft(paddle1) {
         if (
             this.y - this.r < paddle1.y + paddle1.h / 2 &&
@@ -44,12 +43,10 @@ class Ball {
         }
     }
 
-
     updateBallPosition() {
         this.x += this.xSpeed;
         this.y += this.ySpeed;
     }
-
 
     backToOrgin() {
         this.x = width / 2;
@@ -62,7 +59,6 @@ class Ball {
             this.xSpeed *= -1;
         }
     }
-
 
     checkEdges() {
         if (this.y < 0 || this.y > height) {
@@ -88,5 +84,4 @@ class Ball {
         fill(255);
         ellipse(this.x, this.y, this.r * 2);
     }
-
 }
