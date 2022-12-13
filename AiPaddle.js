@@ -5,7 +5,6 @@ class AiPaddle extends Paddle{
     }
 
     move() {
-        this.y = ball.y;
-    }
-            
+       this.y = balls[0].y;
+    }       
 }

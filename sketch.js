@@ -18,107 +18,182 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  console.log(scene);
-
-  makeButton();
   onePlayerGame();
   twoPlayerGame();
+  startGameButton();
+  if (scene == 1.5 || scene == 2) {
+    restartGameButtonLeft();
+    restartGameButtonRight();
+  }
 }
 
 function draw() {
   if (scene == 0) {
-    background('purple');
+    homeScreen();
   }
 
   else if (scene == 0.5 || scene == 1) {
     background('black');
     scoreBoard();
     movePaddles();
+    checkScore();
 
     for (const ball of balls) {
       ball.hitPaddleLeft(paddle1);
+      ball.hitPaddleLeft(aiPaddle);
       ball.hitPaddleRight(paddle2);
       ball.updateBallPosition();
       ball.orgin();
       ball.checkEdges();
     }
 
-    paddle1.startPosition();
-    paddle2.startPosition();
-    aiPaddle.startPosition();
-
     fireDragon.dragonOrgin();
     fireDragon.dragonHit();
     fireDragon.dragonMove();
     fireDragon.dragonWall();
 
-    checkScore();
+    if (scene == 0.5) {
+      aiPaddle.startPosition();
+      paddle2.startPosition();
+    }
+
+    else if (scene == 1) {
+      paddle1.startPosition();
+      paddle2.startPosition();
+    }
   }
 
-  else if (scene == 2) {
-    background('maroon');
-    textAlign(CENTER);
-    text("Game Over!!", windowWidth / 2, windowHeight / 3);
-    text("Hit Enter to Play Again", windowWidth / 2, windowHeight / 2);
+  else if (scene == 1.5 || scene == 2) {
+
     if (leftScore == 3) {
-      text("Player One Won!!", windowWidth / 2, windowHeight / 2.5);
+      textAlign(CENTER);
+      text("WIN", (width / 4), windowHeight / 4);
+      restartGameButtonLeft();
     }
     else if (rightScore == 3) {
-      text("Player Two Won!!", windowWidth / 2, windowHeight / 2.5);
+      textAlign(CENTER);
+      text("WIN!", width - (width / 4), windowHeight / 4);
+      restartGameButtonRight();
     }
   }
 }
 
 function keyPressed() { // this key pressed starts the game
-  if (keyCode === 13) {
 
+  if (keyCode === 49) { //this starts the one player version of the game
     if (scene == 0) {
-      button.style('display', 'none');
-      button.style('display', 'none');
-      scene++;
+      button1.style('display', 'none');
+      button2.style('display', 'none');
+      scene += 0.5;
     }
 
+    else if (scene == 0.5) {
+      onePlayerGame();
+      scene++;
+    }
+  }
+
+  if (keyCode === 50) { // this starts the two player version of the game
+    if (scene == 0) {
+      button1.style('display', 'none');
+      button2.style('display', 'none');
+      scene++;
+    }
     else if (scene == 1) {
       twoPlayerGame();
       scene++;
+    }
+  }
+  if (keyCode === 13) { //this restarts the game after hitting enter
+    if (scene == 1.5) {
+      scene = 0.5;
+      onePlayerGame();
+      leftScore = 0;
+      rightScore = 0;
+      clear();
+      // button.style('display', 'none');
+      // button3.style('display', 'none');
+      // button4.style('display', 'none');
+      // button5.style('display', 'none');
+      // button6.style('display', 'none');
     }
     else if (scene == 2) {
       scene = 1;
       twoPlayerGame();
       leftScore = 0;
       rightScore = 0;
+      clear();
+      // button.style('display', 'none');
+      // button3.style('display', 'none');
+      // button4.style('display', 'none');
+      // button5.style('display', 'none');
+      // button6.style('display', 'none');
     }
   }
-
-  else if (keyCode === 79) {
-    if (scene == 0) {
-      button.style('display', 'none');
-      button.style('display', 'none');
-      scene += 0.5;
-    }
-
-    else if (scene == 1.5) {
-      onePlayerGame();
-      scene += 0.5;
+  if (keyCode === 27) { //this if statement brings you back to the home screen
+    if (scene == 1.5 || scene == 2) {
+      scene = 0;
+      clear();
+      homeScreen();
+      // button.style('display', 'none');
+      // button3.style('display', 'none');
+      // button4.style('display', 'none');
+      // button5.style('display', 'none');
+      // button6.style('display', 'none');
     }
   }
 }
 
-function makeButton() {
-  button = createButton("Hit 'O' to Start Single Player Game!");
-  button.size(200, 200);
-  button.position(width / 2 - 100, height - 600);
-  console.log(width, height);
-  button.style("font-family", "Bodoni");
-  button.style("font-size", "30px");
+function homeScreen() {
+  background('black');
+  textSize(60);
+  text("START GAME", width / 2, height / 2 + 100);
+  // if (scene == 0) {
+  //   startGameButton();
+  // }
 
+}
 
-  button = createButton("Hit Enter to Start Two Player Game!");
-  button.size(200, 200);
-  button.position(width / 2 - 100, height / 2 + 50);
-  console.log(width, height);
-  button.style("font-family", "Bodoni");
-  button.style("font-size", "30px");
+function startGameButton() {
+  button1 = createButton("One Player (1)");
+  button1.size(200, 100);
+  button1.position(width / 2 - 100, height / 3);
+  button1.style("font-family", "Bodoni");
+  button1.style("font-size", "20px");
+
+  button2 = createButton("Two Players (2)");
+  button2.size(200, 100);
+  button2.position(width / 2 - 100, height / 3 + 100);
+  button2.style("font-family", "Bodoni");
+  button2.style("font-size", "20px");
+}
+
+function restartGameButtonLeft() {
+  button3 = createButton("Play Again (enter)");
+  button3.size(200, 100);
+  button3.position(width / 4 - 100, height / 3);
+  button3.style("font-family", "Bodoni");
+  button3.style("font-size", "20px");
+
+  button4 = createButton("Main Menu (esc)");
+  button4.size(200, 100);
+  button4.position(width / 4 - 100, height / 3 + 100);
+  button4.style("font-family", "Bodoni");
+  button4.style("font-size", "20px");
+}
+
+function restartGameButtonRight() {
+  button5 = createButton("Play Again (enter)");
+  button5.size(200, 100);
+  button5.position(width - (width / 3), height / 3);
+  button5.style("font-family", "Bodoni");
+  button5.style("font-size", "20px");
+
+  button6 = createButton("Main Menu (esc)");
+  button6.size(200, 100);
+  button6.position(width - (width / 3), height / 3 + 100);
+  button6.style("font-family", "Bodoni");
+  button6.style("font-size", "20px");
 }
 
 function windowResized() {
@@ -135,9 +210,7 @@ function movePaddles() {
     if (keyIsDown(DOWN_ARROW)) {
       paddle2.move(10);
     }
-
-    paddle1.move(AiPaddle.move());
-
+    aiPaddle.move();
   }
 
   else if (scene == 1) {
@@ -173,7 +246,6 @@ function checkScore() {
   if (leftScore == 3) {
     scene++;
   }
-
   if (rightScore == 3) {
     scene++;
   }
@@ -190,7 +262,7 @@ function onePlayerGame() {
   balls.push(new Ball());
 
   // paddle1 is the automatic moving paddle on the left.
-  paddle1 = new AiPaddle(40, 20, 100);
+  aiPaddle = new AiPaddle(40, 20, 100);
 
   // paddle2 is the paddle on the right.
   paddle2 = new Paddle(width - 40, 20, 100);
