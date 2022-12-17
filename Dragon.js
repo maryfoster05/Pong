@@ -37,7 +37,6 @@ class Dragon extends Ball {
                 ball.x < this.x + this.w &&
                 ball.y > this.y &&
                 ball.y < this.y + this.h
-
             ) {
                 if (millis() - this.lastDragonHit > 1000) {
                     console.log(millis());

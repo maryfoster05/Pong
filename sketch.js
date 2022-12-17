@@ -1,7 +1,6 @@
 let sound;
 let dragon;
 let scene = 0;
-let player = 0;
 let button;
 let fireDragon;
 let paddle1;
@@ -9,6 +8,7 @@ let paddle2;
 let aiPaddle;
 let leftScore = 0;
 let rightScore = 0;
+let balls = [];
 
 
 function preload() {
@@ -21,137 +21,66 @@ function setup() {
   onePlayerGame();
   twoPlayerGame();
   startGameButton();
-  if (scene == 1.5 || scene == 2) {
-    restartGameButtonLeft();
-    restartGameButtonRight();
-  }
+  background('black')
+
+  // if (scene == 0) {
+  //   homeScreen();
+  // }
+
+  // if (scene == 1.5 || scene == 2) {
+  //   // endScreen();
+  //   restartGameButtonLeft();
+  //   restartGameButtonRight();
+  // }
 }
 
 function draw() {
-  if (scene == 0) {
-    homeScreen();
-  }
+  startGame();
+  // gameSetup();
 
-  else if (scene == 0.5 || scene == 1) {
-    background('black');
-    scoreBoard();
-    movePaddles();
-    checkScore();
-
-    for (const ball of balls) {
-      ball.hitPaddleLeft(paddle1);
-      ball.hitPaddleLeft(aiPaddle);
-      ball.hitPaddleRight(paddle2);
-      ball.updateBallPosition();
-      ball.orgin();
-      ball.checkEdges();
-    }
-
-    fireDragon.dragonOrgin();
-    fireDragon.dragonHit();
-    fireDragon.dragonMove();
-    fireDragon.dragonWall();
-
-    if (scene == 0.5) {
-      aiPaddle.startPosition();
-      paddle2.startPosition();
-    }
-
-    else if (scene == 1) {
-      paddle1.startPosition();
-      paddle2.startPosition();
-    }
+  if (scene == 0.5 || scene == 1) {
+    initGame();
   }
 
   else if (scene == 1.5 || scene == 2) {
-
-    if (leftScore == 3) {
-      textAlign(CENTER);
-      text("WIN", (width / 4), windowHeight / 4);
-      restartGameButtonLeft();
-    }
-    else if (rightScore == 3) {
-      textAlign(CENTER);
-      text("WIN!", width - (width / 4), windowHeight / 4);
-      restartGameButtonRight();
-    }
+    endScreen();
   }
+
+  // restartGame();
+  // backToHomeScreen();
+
 }
 
-function keyPressed() { // this key pressed starts the game
+function initGame() {
+  background('black');
+  scoreBoard();
+  movePaddles();
+  checkScore();
 
-  if (keyCode === 49) { //this starts the one player version of the game
-    if (scene == 0) {
-      button1.style('display', 'none');
-      button2.style('display', 'none');
-      scene += 0.5;
-    }
-
-    else if (scene == 0.5) {
-      onePlayerGame();
-      scene++;
-    }
+  for (const ball of balls) {
+    ball.hitPaddleLeft(paddle1);
+    ball.hitPaddleRight(paddle2);
+    ball.updateBallPosition();
+    ball.orgin();
+    ball.checkEdges();
   }
 
-  if (keyCode === 50) { // this starts the two player version of the game
-    if (scene == 0) {
-      button1.style('display', 'none');
-      button2.style('display', 'none');
-      scene++;
-    }
-    else if (scene == 1) {
-      twoPlayerGame();
-      scene++;
-    }
-  }
-  if (keyCode === 13) { //this restarts the game after hitting enter
-    if (scene == 1.5) {
-      scene = 0.5;
-      onePlayerGame();
-      leftScore = 0;
-      rightScore = 0;
-      clear();
-      // button.style('display', 'none');
-      // button3.style('display', 'none');
-      // button4.style('display', 'none');
-      // button5.style('display', 'none');
-      // button6.style('display', 'none');
-    }
-    else if (scene == 2) {
-      scene = 1;
-      twoPlayerGame();
-      leftScore = 0;
-      rightScore = 0;
-      clear();
-      // button.style('display', 'none');
-      // button3.style('display', 'none');
-      // button4.style('display', 'none');
-      // button5.style('display', 'none');
-      // button6.style('display', 'none');
-    }
-  }
-  if (keyCode === 27) { //this if statement brings you back to the home screen
-    if (scene == 1.5 || scene == 2) {
-      scene = 0;
-      clear();
-      homeScreen();
-      // button.style('display', 'none');
-      // button3.style('display', 'none');
-      // button4.style('display', 'none');
-      // button5.style('display', 'none');
-      // button6.style('display', 'none');
-    }
-  }
+  paddle1.startPosition();
+  paddle2.startPosition();
+
+  fireDragon.dragonOrgin();
+  fireDragon.dragonHit();
+  fireDragon.dragonMove();
+  fireDragon.dragonWall();
 }
 
 function homeScreen() {
   background('black');
   textSize(60);
-  text("START GAME", width / 2, height / 2 + 100);
-  // if (scene == 0) {
-  //   startGameButton();
-  // }
-
+  text("START GAME", width / 2, height / 3 + 300);
+  if (scene == 0) {
+    startGameButton();
+  }
 }
 
 function startGameButton() {
@@ -167,6 +96,94 @@ function startGameButton() {
   button2.style("font-family", "Bodoni");
   button2.style("font-size", "20px");
 }
+
+function startGame() {
+  if (keyCode === 49) { //this starts the one player version of the game
+    if (scene == 0) {
+      button1.style('display', 'none');
+      button2.style('display', 'none');
+      scene += 0.5;
+    }
+
+    else if (scene == 0.5) {
+      scene++;
+    }
+  }
+
+  if (keyCode === 50) { // this starts the two player version of the game
+    if (scene == 0) {
+      button1.style('display', 'none');
+      button2.style('display', 'none');
+      scene++;
+    }
+    else if (scene == 1) {
+      scene++;
+    }
+  }
+}
+
+// function gameSetup() {
+//   balls = [];
+//   balls.push(new Ball());
+
+//   if (scene == 0.5) {
+//     aiPaddle = new AiPaddle(40, 20, 100);
+//     paddle2 = new Paddle(width - 40, 20, 100);
+//   }
+//   if (scene == 1) {
+//     paddle1 = new Paddle(40, 20, 100);
+//     paddle2 = new Paddle(width - 40, 20, 100);
+//   }
+
+//   fireDragon = new Dragon();
+
+//   for (const ball of balls) {
+//     ball.backToOrgin();
+//   }
+// }
+
+function endScreen() {
+  if (leftScore == 3) {
+    textAlign(CENTER);
+    text("WIN", (width / 4), windowHeight / 4);
+    restartGameButtonLeft();
+  }
+  else if (rightScore == 3) {
+    textAlign(CENTER);
+    text("WIN!", width - (width / 4), windowHeight / 4);
+    restartGameButtonRight();
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  button.position(width / 2 - 100, height / 2 - 100);
+}
+
+// function restartGame() {
+//   if (keyCode === 13) { 
+//     if (scene == 1.5) {
+//       scene = 0.5;
+//       onePlayerGame();
+//       leftScore = 0;
+//       rightScore = 0;
+//       // button3.style('display', 'none');
+//       // button4.style('display', 'none');
+//       // button5.style('display', 'none');
+//       // button6.style('display', 'none');
+//     }
+//     else if (scene == 2) {
+//       scene = 1;
+//       twoPlayerGame();
+//       leftScore = 0;
+//       rightScore = 0;
+//       // button3.style('display', 'none');
+//       // button4.style('display', 'none');
+//       // button5.style('display', 'none');
+//       // button6.style('display', 'none');
+//     }
+//   }
+// }
 
 function restartGameButtonLeft() {
   button3 = createButton("Play Again (enter)");
@@ -196,10 +213,20 @@ function restartGameButtonRight() {
   button6.style("font-size", "20px");
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  button.position(width / 2 - 100, height / 2 - 100);
-}
+// function backToHomeScreen() {
+//   if (keyCode === 27) { //this if statement brings you back to the home screen
+//     if (scene == 1.5 || scene == 2) {
+//       scene = 0;
+//       // clear();
+//       homeScreen();
+//       // button.style('display', 'none');
+//       // button3.style('display', 'none');
+//       // button4.style('display', 'none');
+//       // button5.style('display', 'none');
+//       // button6.style('display', 'none');
+//     }
+//   }
+// }
 
 function movePaddles() {
   // this moves the paddles on the left; 87 == w & 83 == s
@@ -210,7 +237,7 @@ function movePaddles() {
     if (keyIsDown(DOWN_ARROW)) {
       paddle2.move(10);
     }
-    aiPaddle.move();
+    aiPaddle.move;
   }
 
   else if (scene == 1) {
