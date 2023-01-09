@@ -38,15 +38,16 @@ class Dragon extends Ball {
                 ball.y > this.y &&
                 ball.y < this.y + this.h
             ) {
+
+                if (!roar.isPlaying()) {
+                    roar.play();
+                }
                 if (millis() - this.lastDragonHit > 1000) {
-                    console.log(millis());
                     let b = new Ball();
                     balls.push(b);
                     b.backToOrgin();
                     this.lastDragonHit = millis();
-                    console.log(this.lastDragonHit);
                 }
-
             }
         }
     }
