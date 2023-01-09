@@ -81,8 +81,8 @@ function homeScreen() {
   text('PONG', width / 2, 150);
   textSize(30);
   text('First to 5 Wins', width / 2, 200);
-  text('Paddle on the left uses keys W and S', width / 2, height / 3 + 250);
-  text('Paddle on the right uses the up and down key', width / 2, height / 3 + 300);
+  text('Paddle on the left uses the W and S keys', width / 2, height / 3 + 250);
+  text('Paddle on the right uses the up and down keys', width / 2, height / 3 + 300);
 }
 
 function startGame() {
@@ -303,29 +303,29 @@ function backToHomeScreen() {
     }
   }
 }
-      
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   button.position(width / 2 - 100, height / 2 - 100);
 }
 
 function getSceneName(num) {
-  if (num == 0){
+  if (num == 0) {
     return "Home Screen";
   }
-  else if (num == 0.5){
+  else if (num == 0.5) {
     return "Playing One Player Game"
   }
 
-  else if (num == 1){
+  else if (num == 1) {
     return "Playing Two Player Game"
   }
 
-  else if (num == 1.5){
-    return "Automatically restarts one player game"
+  else if (num == 1.5) {
+    return "End Screen that will automatically restart the one player game"
   }
 
-  else if (num == 2.0){
-    return "Automatically restarts two player game"
+  else if (num == 2.0) {
+    return "End Screen that will automatically restart the two player game"
   }
 }
