@@ -17,3 +17,4 @@ class Paddle {
         this.y += position;
     }
 }
+
