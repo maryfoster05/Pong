@@ -10,9 +10,9 @@ let rightScore = 0;
 let button1, button2, button3, button4;
 
 function preload() {
-  sound = loadSound("data/Hit Sound.wav");
-  dragon = loadImage("data/Dragon.gif");
-  roar = loadSound("data/Dragon Roar.mp3");
+  sound = loadSound("Data/Hit Sound.wav");
+  dragon = loadImage("Data/Dragon.gif");
+  roar = loadSound("Data/Dragon Roar.mp3");
 }
 
 function setup() {
